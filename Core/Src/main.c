@@ -138,21 +138,25 @@ int main(void)
   }
 
   // Create Tasks
-  xTaskCreate(Sender1_Task, "Sender1", 128, NULL, 3, &Sender1_Task_Handler);
+  xTaskCreate(Sender1_Task, "Sender1", 128, NULL, 2, &Sender1_Task_Handler);
+  xTaskCreate(Sender2_Task, "Sender2", 128, NULL, 2, &Sender2_Task_Handler);
+  xTaskCreate(Receiver_Task, "Receiver", 128, NULL, 1, &Receiver_Task_Handler);
 
-/* USER CODE END 2 */
+  vTaskStartScheduler();
 
-/* We should never get here as control is now taken by the scheduler */
+  /* USER CODE END 2 */
 
-/* Infinite loop */
-/* USER CODE BEGIN WHILE */
-while(1)
-{
-  /* USER CODE END WHILE */
+  /* We should never get here as control is now taken by the scheduler */
 
-  /* USER CODE BEGIN 3 */
-}
-/* USER CODE END 3 */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while(1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
 }
 
 /**
@@ -161,36 +165,36 @@ while(1)
  */
 void SystemClock_Config(void)
 {
-RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-/** Initializes the RCC Oscillators according to the specified parameters
- * in the RCC_OscInitTypeDef structure.
- */
-RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
-RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
-if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-{
-  Error_Handler();
-}
+  /** Initializes the RCC Oscillators according to the specified parameters
+   * in the RCC_OscInitTypeDef structure.
+   */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
-/** Initializes the CPU, AHB and APB buses clocks
- */
-RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  /** Initializes the CPU, AHB and APB buses clocks
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-{
-  Error_Handler();
-}
+  if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /**
@@ -201,28 +205,28 @@ if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
 static void MX_USART1_UART_Init(void)
 {
 
-/* USER CODE BEGIN USART1_Init 0 */
+  /* USER CODE BEGIN USART1_Init 0 */
 
-/* USER CODE END USART1_Init 0 */
+  /* USER CODE END USART1_Init 0 */
 
-/* USER CODE BEGIN USART1_Init 1 */
+  /* USER CODE BEGIN USART1_Init 1 */
 
-/* USER CODE END USART1_Init 1 */
-huart1.Instance = USART1;
-huart1.Init.BaudRate = 115200;
-huart1.Init.WordLength = UART_WORDLENGTH_8B;
-huart1.Init.StopBits = UART_STOPBITS_1;
-huart1.Init.Parity = UART_PARITY_NONE;
-huart1.Init.Mode = UART_MODE_TX_RX;
-huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-if(HAL_UART_Init(&huart1) != HAL_OK)
-{
-  Error_Handler();
-}
-/* USER CODE BEGIN USART1_Init 2 */
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if(HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
 
-/* USER CODE END USART1_Init 2 */
+  /* USER CODE END USART1_Init 2 */
 
 }
 
@@ -233,20 +237,115 @@ if(HAL_UART_Init(&huart1) != HAL_OK)
  */
 static void MX_GPIO_Init(void)
 {
-/* USER CODE BEGIN MX_GPIO_Init_1 */
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
 
-/* USER CODE END MX_GPIO_Init_1 */
+  /* USER CODE END MX_GPIO_Init_1 */
 
-/* GPIO Ports Clock Enable */
-__HAL_RCC_GPIOD_CLK_ENABLE();
-__HAL_RCC_GPIOA_CLK_ENABLE();
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
 
-/* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
 
-/* USER CODE END MX_GPIO_Init_2 */
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
+
+void Sender1_Task(void *argument)
+{
+  Structured_Struct_t *structptr;
+
+  uint32_t ticks = pdMS_TO_TICKS(2000);
+  while(1)
+  {
+    char *str = "Entered Sender1 Task\n about to send to the queue\n\n";
+    HAL_UART_Transmit(&huart1, (uint8_t*) str, strlen(str), HAL_MAX_DELAY);
+
+    // Allocated memory
+    structptr = pvPortMalloc(sizeof(Structured_Struct_t));
+
+    // Load Data
+    structptr->counter = 1 + indx1;
+    structptr->large_value = 1000 + indx1 * 100;
+    structptr->str = "Hello From Sender1 ";
+
+    // Send to queue
+    if(xQueueSend(St_Queue_Handler, &structptr, portMAX_DELAY) == pdPASS)
+    {
+      char *str2 = "Successfully sent to the queue\n Leaving Sender1 Task\n\n";
+      HAL_UART_Transmit(&huart1, (uint8_t*) str2, strlen(str2), HAL_MAX_DELAY);
+    }
+
+    indx1++;
+
+    vTaskDelay(ticks);
+  }
+}
+
+void Sender2_Task(void *argument)
+{
+  Structured_Struct_t *structptr;
+
+  uint32_t ticks = pdMS_TO_TICKS(2000);
+  while(1)
+  {
+    char *str = "Entered Sender2 Task\n about to send to the queue\n\n";
+    HAL_UART_Transmit(&huart1, (uint8_t*) str, strlen(str), HAL_MAX_DELAY);
+
+    // Allocated memory
+    structptr = pvPortMalloc(sizeof(Structured_Struct_t));
+
+    // Load Data
+    structptr->counter = 1 + indx2;
+    structptr->large_value = 2000 + indx2 * 200;
+    structptr->str = "Hello From Sender2 ";
+
+    // Send to queue
+    if(xQueueSend(St_Queue_Handler, &structptr, portMAX_DELAY) == pdPASS)
+    {
+      char *str2 = "Successfully sent to the queue\n Leaving Sender2 Task\n\n";
+      HAL_UART_Transmit(&huart1, (uint8_t*) str2, strlen(str2), HAL_MAX_DELAY);
+    }
+
+    indx2++;
+
+    vTaskDelay(ticks);
+  }
+}
+
+void Receiver_Task(void *argument)
+{
+  Structured_Struct_t *receiveptr;
+  uint32_t ticks = pdMS_TO_TICKS(3000);
+  char *ptr;
+  while(1)
+  {
+    char *str = "Entered Receiver Task\n about to receive from the queue\n\n";
+    HAL_UART_Transmit(&huart1, (uint8_t*) str, strlen(str), HAL_MAX_DELAY);
+
+    // Receive from the queue
+    if(xQueueReceive(St_Queue_Handler, &receiveptr, portMAX_DELAY) == pdPASS)
+    {
+      ptr = pvPortMalloc(100 * sizeof(char));
+
+      sprintf(
+          ptr,
+          "Received from Queue:\n Counter = %d\n Large value = %u\n String = %s\n\n",
+          receiveptr->counter,
+          receiveptr->large_value,
+          receiveptr->str);
+
+      HAL_UART_Transmit(&huart1, (uint8_t*) ptr, strlen(ptr), HAL_MAX_DELAY);
+
+      vPortFree(ptr);
+    }
+
+    vPortFree(receiveptr);   // Free the memory structure
+
+    vTaskDelay(ticks);
+  }
+}
 
 /* USER CODE END 4 */
 
@@ -260,16 +359,16 @@ __HAL_RCC_GPIOA_CLK_ENABLE();
  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-/* USER CODE BEGIN Callback 0 */
+  /* USER CODE BEGIN Callback 0 */
 
-/* USER CODE END Callback 0 */
-if(htim->Instance == TIM3)
-{
-  HAL_IncTick();
-}
-/* USER CODE BEGIN Callback 1 */
+  /* USER CODE END Callback 0 */
+  if(htim->Instance == TIM3)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
 
-/* USER CODE END Callback 1 */
+  /* USER CODE END Callback 1 */
 }
 
 /**
@@ -278,13 +377,13 @@ if(htim->Instance == TIM3)
  */
 void Error_Handler(void)
 {
-/* USER CODE BEGIN Error_Handler_Debug */
-/* User can add his own implementation to report the HAL error return state */
-__disable_irq();
-while(1)
-{
-}
-/* USER CODE END Error_Handler_Debug */
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while(1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
 }
 #ifdef USE_FULL_ASSERT
 /**
