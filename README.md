@@ -18,6 +18,10 @@ A queue with capacity of 2 structure pointers is used to pass data between sende
 - Pointer Queue: Queue stores pointers to structures, not the structures themselves
 - Memory Management: Receiver must free the memory after processing
 - Multiple Producers: Two identical priority tasks create different data patterns
+  
+## UART Output
+
+https://github.com/user-attachments/assets/4e983618-e6e1-40c9-aea0-104526d5a22c
 
 ## Hardware Requirements
 - STM32 development board (STM32F103C8T6 "Blue Pill")
@@ -97,45 +101,6 @@ Sender Task                    Queue                      Receiver Task
 - Send operation transfers ownership to queue
 - Receive operation transfers ownership to receiver
 - Receiver must free memory (ownership responsibility)
-
-## Expected UART Output
-```
-Structured queue Successfully Created
-
-Entered Sender1 Task
-about to send to the queue
-
-Successfully sent to the queue
-Leaving Sender1 Task
-
-Entered Sender2 Task
-about to send to the queue
-
-Successfully sent to the queue
-Leaving Sender2 Task
-
-Entered Receiver Task
-about to receive from the queue
-
-Received from Queue:
-Counter = 1
-Large value = 1000
-String = Hello From Sender1
-
-Leaving Receiver Task
-
-Entered Receiver Task
-about to receive from the queue
-
-Received from Queue:
-Counter = 1
-Large value = 2000
-String = Hello From Sender2
-
-Leaving Receiver Task
-
-... (pattern continues)
-```
 
 ## Queue States and Memory Implications
 When Queue Has Space
